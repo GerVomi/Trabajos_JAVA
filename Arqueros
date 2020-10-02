@@ -1,0 +1,76 @@
+package unidad;
+
+public class Arqueros extends Unidad {
+
+	private int flechas;
+	private static final int distanciaMinimaDeAtaque = 2;
+	private static final int distanciaMaximaAtaque = 5;
+
+	public Arqueros(Punto2D posicion, String color) {
+		super(posicion, 50, 5, color);
+		this.flechas = 20;
+	}
+
+	public int getFlechas() {
+		return flechas;
+	}
+
+	public void setFlechas(int flechas) {
+		this.flechas = flechas;
+	}
+
+	@Override
+	public String toString() {
+		return "Arqueros{" + "flechas=" + this.flechas + " vida: " + this.getSalud() + '}';
+	}
+
+	@Override
+	public void atacar(Unidad otraU) throws NoPuedeAtacarException {
+		if (this.vivoConFlechas() && (this.alcanceAtaque(otraU))) {
+			if(this.getColor()==otraU.getColor()) {
+				throw new NoPuedeAtacarException("No puede atacar a una unidad del mismo bando");
+			}
+			this.flechas--;
+			otraU.recibirAtaque(this);
+		} 
+		else if (this.estaVivo() == false) {
+			throw new NoPuedeAtacarException("Personaje muerto, no puede atacar");
+		} else if (this.flechas <= 0) {
+			throw new NoPuedeAtacarException("Arquero sin flechas, no puede atacar");
+		} else
+			throw new NoPuedeAtacarException("Fuera de rango del arquero, no puede atacar");
+	}
+
+	@Override
+	public void recibirAtaque(Unidad otraU) throws NoPuedeAtacarException {
+		if (this.estaVivo()) {
+			this.setSalud(this.getSalud() - otraU.getDanio());
+			if (this.getSalud() <= 0) {
+				Unidad.restarColor(this.getColor());
+
+				Unidad.finDelJuego();
+			}
+		} else if (this.estaVivo() == false) {
+
+			throw new NoPuedeAtacarException("Unidad muerta ya no puede ser atacada!");
+
+		}
+
+	}
+
+	public boolean alcanceAtaque(Unidad otraU) {
+
+		return this.distancia(otraU) >= this.distanciaMinimaDeAtaque
+				&& this.distancia(otraU) <= this.distanciaMaximaAtaque;
+
+	}
+
+	private boolean vivoConFlechas() {
+		return this.estaVivo() && this.flechas > 0;
+	}
+
+	public void recargarFlechas() {
+		this.flechas += 6;
+	}
+
+}
