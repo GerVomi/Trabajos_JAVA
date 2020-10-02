@@ -1,0 +1,61 @@
+package unidad;
+
+public class Juego {
+    
+    public static void main(String[] args) throws NoPuedeAtacarException {
+    
+    	
+    	
+    Unidad arquero1 = new Arqueros(new Punto2D(3,3),"rojo");
+    //Unidad soldado1 = new Soldado(new Punto2D(3,3),"rojo");
+    //Unidad lancero1 = new Lancero(new Punto2D(5,5),"azul");
+    Unidad caballero1 = new Caballero(new Punto2D(2,3),"azul");
+    Unidad soldado3 = new Soldado(new Punto2D(3,3),"azul");
+    Unidad soldado6 = new Soldado(new Punto2D(5,5),"rojo");
+    //Unidad soldado7 = new Soldado(new Punto2D(3,3),"rojo");
+    
+        
+        System.out.println("Distancia entre caballero y arquero: "+caballero1.distancia(arquero1));
+        
+        Unidad.mostrarContadorRojo();
+        Unidad.mostrarContadorAzul();
+        
+        
+        //((Arqueros)arquero1).recargarFlechas();
+        
+        //arquero1.atacar(caballero1);
+        
+        
+        System.out.println(soldado3);
+        arquero1.atacar(soldado6);
+        System.out.println(soldado3);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+  
+             
+        
+        
+        
+    
+        
+        
+        
+        
+        //arquero1.recargarFlechas();
+        //((Arqueros)arquero1).recargarFlechas();
+        
+    } 
+        
+        
+        
+        
+        
+} 
