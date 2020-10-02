@@ -1,0 +1,41 @@
+package unidad;
+
+import junit.framework.TestCase;
+
+public class ArquerosTest extends TestCase {
+
+	public void testAtacar() throws NoPuedeAtacarException {
+		Unidad arquero1 = new Arqueros(new Punto2D(2, 2), "rojo");
+		Unidad soldado1 = new Soldado(new Punto2D(4, 4), "azul");
+		arquero1.atacar(soldado1);
+		assertEquals(180, soldado1.getSalud());
+	}
+
+	public void testRecibirAtaque() throws NoPuedeAtacarException {
+		Unidad arquero1 = new Arqueros(new Punto2D(2, 2), "rojo");
+		Unidad soldado1 = new Soldado(new Punto2D(4, 4), "azul");
+		arquero1.recibirAtaque(soldado1);
+		assertEquals(90, arquero1.getSalud());
+
+	}
+
+	public void testAlcanceAtaque() {
+		Unidad arquero1 = new Arqueros(new Punto2D(2, 2), "rojo");
+		Unidad soldado1 = new Soldado(new Punto2D(5, 4), "azul");
+		assertTrue("Esta fuera de alcance", true == ((Arqueros) arquero1).alcanceAtaque(soldado1));
+	}
+
+	public void testDesplazar() {
+		Punto2D emp;
+		Unidad arquero1 = new Arqueros(new Punto2D(2, 2), "rojo");
+		arquero1.desplazar(new Punto2D(3, 3));
+		emp = new Punto2D(3, 3);
+		assertTrue(emp.equals(arquero1.getPosicion()));
+	}
+
+	public void testVivoConFlechas() {
+		Unidad arquero1 = new Arqueros(new Punto2D(2, 2), "azul");
+		assertTrue(true == arquero1.estaVivo() && ((Arqueros) arquero1).getFlechas() > 0);
+	}
+
+}
