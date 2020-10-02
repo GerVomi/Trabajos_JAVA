@@ -1,0 +1,77 @@
+package unidad;
+
+public class Soldado extends Unidad implements Bebible {
+	private int energia;
+	private static final int distanciaMinimaDeAtaque = 0;
+	private static final int distanciaMaximaAtaque = 0;
+
+	
+
+	public Soldado(Punto2D posicion, String color) {
+		super(posicion, 200, 10, color);
+		this.energia = 100;
+	}
+	
+	@Override
+	public String toString() {
+		return "Soldado{" + "Vida=" + this.getSalud() + " Energia :" + this.energia + '}';
+	}
+
+	public int getEnergia() {
+		return energia;
+	}
+
+	public void setEnergia(int energia) {
+		this.energia = energia;
+	}
+
+	@Override
+	public void atacar(Unidad otraU) throws NoPuedeAtacarException {
+		if (this.vivoConEnergia() && this.alcanceAtaque(otraU)) {
+			if(this.getColor()==otraU.getColor()) {
+				throw new NoPuedeAtacarException("No puede atacar a una unidad del mismo bando");
+			}
+			this.energia -= 10;
+			otraU.recibirAtaque(this);
+
+		} 
+		else if(this.getColor()==otraU.getColor()) {
+			throw new NoPuedeAtacarException("No puede atacar a una unidad del mismo bando");
+		}
+		else if (this.estaVivo() == false) {
+			throw new NoPuedeAtacarException("Personaje muerto, no puede atacar");
+		} else if (this.energia < 10)
+			throw new NoPuedeAtacarException("Energia insuficiente, no puede atacar!");
+		else
+			throw new NoPuedeAtacarException("Fuera de alcance");
+	}
+
+	@Override
+	public void recibirAtaque(Unidad otraU) {
+		if (this.estaVivo()) {
+			this.setSalud(this.getSalud() - otraU.getDanio());
+			if (this.getSalud() <= 0) {
+				Unidad.restarColor(this.getColor());
+				Unidad.finDelJuego();
+			}
+		} else if (this.estaVivo() == false)
+			System.out.println("Unidad muerta, no puede ser atacada!");
+	}
+
+	private boolean vivoConEnergia() {
+		return this.estaVivo() && this.energia >= 10;
+	}
+
+	public boolean alcanceAtaque(Unidad otraU) {
+		return this.distancia(otraU) == this.distanciaMinimaDeAtaque
+				&& this.distancia(otraU) == this.distanciaMaximaAtaque;
+
+	}
+
+	@Override
+	public void beberAgua() {
+		this.energia = 100;
+
+	}
+
+}
