@@ -1,0 +1,98 @@
+package unidad;
+
+public abstract class Unidad {
+
+	private Punto2D posicion;
+	private int salud;
+	private int danio;
+	private String color;
+	private static int contRojo = 0;
+	private static int contAzul = 0;
+
+	public Unidad(Punto2D posicion, int salud, int danio, String color) {
+		this.posicion = posicion;
+		this.salud = salud;
+		this.danio = danio;
+		this.color = color;
+
+		if (color == "rojo") {
+			++contRojo;
+		} else {
+			++contAzul;
+		}
+	}
+
+	public static void mostrarContadorRojo() {
+		System.out.println("rojos:" + contRojo);
+	}
+
+	public static void restarColor(String color) {
+		if (color == "rojo") {
+			System.out.println("Murio un rojo");
+			--contRojo;
+		} else if (color == "azul") {
+			System.out.println("Murio un azul");
+			--contAzul;
+		}
+	}
+
+	public static void mostrarContadorAzul() {
+		System.out.println("Azules : " + contAzul);
+
+	}
+
+	public static void finDelJuego() {
+		if (contRojo == 0 || contAzul == 0)
+			System.out.println("Fin del juego");
+
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public Punto2D getPosicion() {
+		return posicion;
+	}
+
+	public void setPosicion(Punto2D posicion) {
+		this.posicion = posicion;
+	}
+
+	public int getSalud() {
+		return salud;
+	}
+
+	public void setSalud(int salud) {
+		this.salud = salud;
+	}
+
+	public int getDanio() {
+		return danio;
+	}
+
+	public void setDanio(int danio) {
+		this.danio = danio;
+	}
+
+	public abstract void atacar(Unidad otraU) throws NoPuedeAtacarException;
+
+	public abstract void recibirAtaque(Unidad otraU) throws NoPuedeAtacarException;
+
+	public boolean estaVivo() {
+		return (this.salud > 0);
+	}
+
+	public void desplazar(Punto2D nuevaPosicion) {
+		this.posicion = nuevaPosicion;
+	}
+
+	public double distancia(Unidad otraU) {
+		return this.posicion.distancia(otraU.posicion);
+	}
+
+}
