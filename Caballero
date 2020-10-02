@@ -1,0 +1,74 @@
+package unidad;
+
+public class Caballero extends Unidad {
+
+	private int ataquesRecibidos = 0;
+	Caballo caballito2 = new Caballo();
+
+	private static final int distanciaMinimaDeAtaque = 1;
+	private static final int distanciaMaximaAtaque = 2;
+
+	public Caballero(Punto2D posicion, String color) {
+		super(posicion, 200, 50, color);
+		this.caballito2 = caballito2;
+
+	}
+
+	@Override
+	public String toString() {
+		return "Caballero{ Salud: " + this.getSalud() + " Ataques recibidos: " + caballito2.getAtaquesRecibido() + '}';
+	}
+
+	@Override
+	public void atacar(Unidad otraU) throws NoPuedeAtacarException {
+
+		if (this.estaVivo() && this.alcanceAtaque(otraU) && caballito2.getAtaquesRecibido() <= 3) {
+			if(this.getColor()==otraU.getColor()) {
+				throw new NoPuedeAtacarException("No puede atacar a una unidad del mismo bando");
+			}System.out.println(this.getColor()+","+otraU.getColor());
+			otraU.recibirAtaque(this);
+		}
+				
+		else if (caballito2.getAtaquesRecibido() >= 4) {
+			throw new NoPuedeAtacarException("Caballo rebelde, no puede atacar");
+		} else if (this.estaVivo() == false) {
+			throw new NoPuedeAtacarException("Personaje muerto, no puede atacar");
+		} else {
+			throw new NoPuedeAtacarException("Enemigo fuera de rango");
+		}
+
+	}
+
+	@Override
+	public void recibirAtaque(Unidad otraU) throws NoPuedeAtacarException {
+		this.ataquesRecibidos++;
+
+		caballito2.contadorAtaquesRecibidos();
+
+		if (this.estaVivo()) {
+			this.setSalud(this.getSalud() - otraU.getDanio());
+			if (this.getSalud() <= 0) {
+
+				Unidad.restarColor(this.getColor());
+				Unidad.finDelJuego();
+			}
+		}
+
+		else if (this.estaVivo() == false) {
+
+			throw new NoPuedeAtacarException("Unidad muerta ya no puede ser atacada!");
+		}
+
+	}
+
+	private boolean alcanceAtaque(Unidad otraU) {
+		return this.distancia(otraU) >= this.distanciaMinimaDeAtaque
+				&& this.distancia(otraU) <= this.distanciaMaximaAtaque;
+	}
+
+	public void beberAgua() {
+		System.out.println("Caballero le da pocion a su caballo!");
+		caballito2.beberAgua();
+	}
+
+}
