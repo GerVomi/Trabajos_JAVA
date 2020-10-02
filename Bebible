@@ -1,0 +1,6 @@
+Package unidad;
+
+public interface Bebible {
+
+	public void beberAgua();
+}
