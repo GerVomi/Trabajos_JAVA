@@ -1,0 +1,34 @@
+package unidad;
+
+import junit.framework.TestCase;
+
+public class CaballeroTest extends TestCase {
+
+	public void testAtacar() throws NoPuedeAtacarException {
+		Unidad caballero1 = new Caballero(new Punto2D(2,2),"rojo");
+		Unidad soldado1 = new Soldado(new Punto2D(3,3),"azul");
+		caballero1.atacar(soldado1);
+		assertEquals(150, soldado1.getSalud());
+	}
+
+	public void testRecibirAtaque() throws NoPuedeAtacarException {
+		Unidad caballero1 = new Caballero(new Punto2D(2,2),"rojo");
+		Unidad soldado1 = new Soldado(new Punto2D(2,2),"azul");
+		caballero1.recibirAtaque(soldado1);
+		assertEquals(190,caballero1.getSalud());
+	}
+
+	public void testEstaVivo() {
+		Unidad caballero1 = new Caballero(new Punto2D(2,2),"rojo");
+		assertTrue(true==caballero1.getSalud()>0);
+	}
+
+	public void testDesplazar() {
+		Punto2D emp;
+		Unidad caballero1 = new Arqueros(new Punto2D(2,2),"rojo");
+		caballero1.desplazar(new Punto2D(3,3));
+		emp=new Punto2D (3,3);
+		assertTrue(emp.equals(caballero1.getPosicion()));
+	}
+
+}
