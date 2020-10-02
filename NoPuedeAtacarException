@@ -1,0 +1,14 @@
+package unidad;
+
+public class NoPuedeAtacarException extends Exception {
+	
+	public NoPuedeAtacarException(String mensaje) 
+	{
+		super(mensaje);
+	}
+	
+	public NoPuedeAtacarException() {
+		this(null);
+	}
+
+}
