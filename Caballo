@@ -1,0 +1,28 @@
+package unidad;
+
+public class Caballo implements Bebible {   //relacion de asociacion con caballero
+
+    private int ataquesRecibidos = 0;
+    private boolean rebelde;
+
+    public int getAtaquesRecibido() {
+        return ataquesRecibidos;
+    }
+
+    public Caballo() {
+        this.rebelde = false;
+    }
+
+    public int contadorAtaquesRecibidos() {
+
+        return this.ataquesRecibidos++;
+
+    }
+
+    @Override
+    public void beberAgua() {
+        this.ataquesRecibidos = 0;
+
+    }
+
+}
