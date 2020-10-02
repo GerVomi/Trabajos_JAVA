@@ -1,0 +1,40 @@
+package unidad;
+
+import junit.framework.TestCase;
+
+public class LanceroTest extends TestCase {
+
+	public void testAtacar() throws NoPuedeAtacarException {
+		Unidad lancero1 = new Lancero(new Punto2D(2,2),"rojo");
+		Unidad soldado1 = new Soldado(new Punto2D(4,4),"azul");
+		lancero1.atacar(soldado1);
+		assertEquals(175, soldado1.getSalud());
+	}
+
+	public void testRecibirAtaque() throws NoPuedeAtacarException {
+		Unidad lancero1 = new Lancero(new Punto2D(2,2),"rojo");
+		Unidad soldado1 = new Soldado(new Punto2D(2,2),"azul");
+		lancero1.recibirAtaque(soldado1);
+		assertEquals(140,lancero1.getSalud());
+	}
+
+	public void testEstaVivo() {
+		Unidad lancero1 = new Lancero(new Punto2D(2,2),"rojo");
+		assertTrue(true==lancero1.getSalud()>0);
+	}
+
+	public void testDesplazar() {
+		Punto2D emp;
+		Unidad lancero1 = new Lancero(new Punto2D(2,2),"rojo");
+		lancero1.desplazar(new Punto2D(3,3));
+		emp=new Punto2D (3,3);
+		assertTrue(emp.equals(lancero1.getPosicion()));
+	}
+	
+	public void testAlcanceAtaque() {
+		Unidad lancero1 = new Arqueros(new Punto2D(2, 2), "rojo");
+		Unidad soldado1 = new Soldado(new Punto2D(4, 4), "azul");
+		assertTrue("Esta fuera de alcance", true == ((Arqueros) lancero1).alcanceAtaque(soldado1));
+	}
+
+}
