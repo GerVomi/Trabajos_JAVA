@@ -1,0 +1,42 @@
+package unidad;
+
+import junit.framework.TestCase;
+
+public class SoldadoTest extends TestCase {
+
+	public void testAtacar() throws NoPuedeAtacarException {
+
+		Unidad soldado1 = new Soldado(new Punto2D(4, 4), "azul");
+		Unidad arquero1 = new Arqueros(new Punto2D(4, 4), "rojo");
+		soldado1.atacar(arquero1);
+		assertEquals(40, arquero1.getSalud());
+	}
+
+	public void testEstaVivoConEnergia() {
+		Unidad soldado1 = new Soldado(new Punto2D(4, 4), "azul");
+
+		assertTrue(true == soldado1.estaVivo() && ((Soldado) soldado1).getEnergia() >= 10);
+	}
+
+	public void testRecibirAtaque() throws NoPuedeAtacarException {
+		Unidad soldado1 = new Soldado(new Punto2D(2, 2), "rojo");
+		Unidad soldado2 = new Soldado(new Punto2D(4, 4), "azul");
+		soldado1.recibirAtaque(soldado2);
+		assertEquals(190, soldado1.getSalud());
+	}
+
+	public void testAlcanceAtaque() {
+		Unidad soldado1 = new Soldado(new Punto2D(2, 2), "rojo");
+		Unidad soldado2 = new Soldado(new Punto2D(2, 2), "azul");
+		assertTrue("Esta fuera de alcance", true == ((Soldado) soldado1).alcanceAtaque(soldado2));
+	}
+
+	public void testDesplazar() {
+		Unidad soldado1 = new Soldado(new Punto2D(2, 2), "rojo");
+		soldado1.desplazar(new Punto2D(3, 3));
+		Punto2D emp;
+		emp = new Punto2D(3, 3);
+		assertTrue("No se movio", emp.equals(soldado1.getPosicion()));
+	}
+
+}
