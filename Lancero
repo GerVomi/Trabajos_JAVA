@@ -1,0 +1,52 @@
+package unidad;
+
+public class Lancero extends Unidad {
+
+    private static final int distanciaMinimaDeAtaque = 1;
+    private static final int distanciaMaximaAtaque = 3;
+
+    public Lancero(Punto2D posicion, String color) {
+        super(posicion, 150, 25, color);
+    }
+
+    @Override
+    public String toString() {
+        return "Lancero{ salud : " + this.getSalud() + " Danio: " + this.getDanio() + '}';
+    }
+
+    @Override
+    public void atacar(Unidad otraU) throws NoPuedeAtacarException {
+        if (this.estaVivo() && this.alcanceAtaque(otraU)) {
+        	if(this.getColor()==otraU.getColor()) {
+    			throw new NoPuedeAtacarException("No puede atacar a una unidad del mismo bando");
+    		}
+            otraU.recibirAtaque(this);
+        } 
+        else if (this.estaVivo() == false) {
+        	throw new NoPuedeAtacarException("Personaje muerto, no puede atacar");
+        } else {
+        	throw new NoPuedeAtacarException("Fuera de alcance");
+        }
+    }
+
+    @Override
+    public void recibirAtaque(Unidad otraU) throws NoPuedeAtacarException {
+    	if(this.estaVivo()) {
+            this.setSalud(this.getSalud() - otraU.getDanio());
+        if(this.getSalud()<=0) {
+        	Unidad.restarColor(this.getColor());
+        	Unidad.finDelJuego();
+        }
+        }
+        else if (this.estaVivo() == false) {
+        	throw new NoPuedeAtacarException("Unidad muerta ya!");
+        }
+
+    }
+
+    private boolean alcanceAtaque(Unidad otraU) {
+        return this.distancia(otraU) >= this.distanciaMinimaDeAtaque && this.distancia(otraU) <= this.distanciaMaximaAtaque;
+
+    }
+
+}
